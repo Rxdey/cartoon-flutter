@@ -34,7 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map> manhuaList = [];
+  List manhuaList;
 
   @override
   void initState() {
@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     // print(222);
     var res = await HttpRequest.request(recent);
     if (res['state'] != 1) return;
+    // print(res['data']);
     setState(() {
       manhuaList = res['data'];
     });
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(5.0),
                 child: Column(
-                  children: manhuaList.map((item) => RecentList(item)).toList(),
+                  children: manhuaList != null ? manhuaList.map((item) => RecentList(item)).toList() : <Widget>[],
                 ),
               ),
             ),
