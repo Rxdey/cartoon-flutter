@@ -12,7 +12,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   var lists;
-  var head;
+  Map head;
   String id;
   _DetailState(this.id);
   @override
@@ -29,7 +29,6 @@ class _DetailState extends State<Detail> {
     setState(() {
       lists = res['data']['lists'];
       head = res['data']['head'];
-      // print(res['data']);
     });
   }
 
