@@ -26,8 +26,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -57,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 // Navigator.pushNamed(context, "my_page");
                 Navigator.of(context).pushNamed("my_page", arguments: "参数测试");
-                // Navigator.push(context, 
+                // Navigator.push(context,
                 // new MaterialPageRoute(builder: (context){
                 //   return new NewRoute();
                 // }));

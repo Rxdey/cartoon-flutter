@@ -20,14 +20,14 @@ class HttpRequest {
   static const int RECEIVE_TIMEOUT = 3000;
 
   /// http request methods
-  static const String GET = 'get';
+  static const String GET = 'GET';
   static const String POST = 'post';
   static const String PUT = 'put';
   static const String PATCH = 'patch';
   static const String DELETE = 'delete';
 
   /// request method
-  static Future<Map> request(Map config, [Map data]) async {
+  static Future<Map> request(Map config, [Map<String, dynamic> data]) async {
     data = data ?? {};
     var method = config['method'] ?? 'GET';
     var url = config['url'] ?? '';
@@ -49,11 +49,18 @@ class HttpRequest {
     var result;
 
     try {
-      Response response = await dio.request(url,
-          data: data, options: new Options(method: method));
+      // Response response = await dio.request(url,
+      //     data: data, options: new Options(method: 'GET'));
 
+      // result = response.data;
+      Response response;
+      if (method.toLowerCase() == 'get'){
+        response = await dio.get(url, queryParameters: data);
+      }
+      if (method.toLowerCase() == 'post'){
+        response = await dio.post(url, data: data);
+      }
       result = response.data;
-
       /// 打印响应相关信息
       print('状态：' + response.data['state'].toString());
     } on DioError catch (e) {

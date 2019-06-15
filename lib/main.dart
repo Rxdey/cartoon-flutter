@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             width: double.infinity,
             height: 200,
+            color: Color(0xFFF7F7F7),
             child: Scrollbar(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(5.0),
