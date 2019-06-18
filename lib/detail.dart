@@ -84,8 +84,7 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     // if(head == null) return null;
     return Scaffold(
-        body: Container(
-      child: Scrollbar(
+      body: Scrollbar(
         child: SingleChildScrollView(
           child: Column(children: <Widget>[
             GestureDetector(
@@ -168,10 +167,51 @@ class _DetailState extends State<Detail> {
                   )
                 ],
               ),
-            )
+            ),
           ]),
         ),
       ),
-    ));
+      bottomSheet: BottomSheet(
+        onClosing: () {},
+        builder: (BuildContext context) {
+          return Container(
+            color: Colors.white,
+            width: double.infinity,
+            height: 300.0,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFFDDDDDD), //阴影颜色
+                      blurRadius: 5.0, //阴影大小
+                    )
+                  ]),
+                  child: Text(
+                    '全部章节',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.all(15.0),
+                      child: Wrap(
+                        spacing: 10.0,
+                        runSpacing: 10.0,
+                        children: this.createChaper(this.lists),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
