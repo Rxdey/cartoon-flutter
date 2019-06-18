@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../api/api.dart' show HOST;
 import '../detail.dart';
@@ -13,9 +14,8 @@ class RecentList extends StatelessWidget {
         color: Colors.white,
         child: InkWell(
           onTap: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (BuildContext context) {
-              return new Detail(id: data['id']);
+            Navigator.push(context, CupertinoPageRoute(builder: (context) {
+              return Detail(id: data['id']);
             }));
           },
           child: Container(

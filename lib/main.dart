@@ -58,19 +58,24 @@ class _HomePageState extends State<HomePage> {
         body: Column(
       children: <Widget>[
         Container(
-          width: double.infinity,
-          height: 200,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.yellow, //阴影颜色
-              blurRadius: 10.0, //阴影大小
-            ),
-          ]),
-          child: Image(
-              image: NetworkImage(
-                  'https://ws1.sinaimg.cn/large/005O2C54gy1g3zkb812hcj30go0nk0x6.jpg'),
-              fit: BoxFit.cover),
-        ),
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+              BoxShadow(
+                color: Colors.yellow, //阴影颜色
+                blurRadius: 10.0, //阴影大小
+              ),
+            ]),
+            child: ClipRect(
+              child: FadeInImage.assetNetwork(
+                image:
+                    'https://ws1.sinaimg.cn/large/005O2C54gy1g3zkb812hcj30go0nk0x6.jpg',
+                placeholder: 'assets/image/default.png',
+                fit: BoxFit.cover,
+              ),
+            )),
         Expanded(
           flex: 1,
           child: Container(
@@ -81,7 +86,9 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(5.0),
                 child: Column(
-                  children: manhuaList != null ? manhuaList.map((item) => RecentList(item)).toList() : <Widget>[],
+                  children: manhuaList != null
+                      ? manhuaList.map((item) => RecentList(item)).toList()
+                      : <Widget>[],
                 ),
               ),
             ),
