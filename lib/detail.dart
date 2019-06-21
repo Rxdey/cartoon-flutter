@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+// import 'package:fluttertoast/fluttertoast.dart';
 import './request/request.dart';
 import './api/api.dart';
 
@@ -23,7 +24,7 @@ class _DetailState extends State<Detail> {
     'state': '',
   };
   String id;
-  int index = 14;
+  int index = 10;
   int active = 0;
   bool showCover = false;
   bool sort = true;
@@ -52,18 +53,21 @@ class _DetailState extends State<Detail> {
     });
   }
 
-  List<Widget> createChaper(List array) {
+  List<Widget> createChaper(List array, BuildContext context) {
     return array
         .asMap()
         .map((key, item) => MapEntry(
             key,
-            Listener(
-              onPointerDown: (PointerDownEvent event) => {},
+            GestureDetector(
+              onTap: () {
+                if (item['url'] == 'more') {
+                  this._showModalBottomSheet(context);
+                  return;
+                }
+              },
               child: Container(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   width: 83.0,
-                  // margin:
-                  //     EdgeInsets.only(bottom: 10, right: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: this.active == key
@@ -78,6 +82,52 @@ class _DetailState extends State<Detail> {
             )))
         .values
         .toList();
+  }
+
+  _showModalBottomSheet(BuildContext context, {Widget child}) {
+    Widget chapers = SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(15.0),
+        child: Wrap(
+          spacing: 10.0,
+          runSpacing: 10.0,
+          children: this.createChaper(lists, context),
+        ),
+      ),
+    );
+    bool loading = false;
+    child = child ?? chapers;
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Color(0XFFE5E5E5), width: 1.0))),
+                  child: Text(
+                    '全部章节',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: loading
+                      ? Text(
+                          '加载中...',
+                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        )
+                      : child,
+                )
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -153,7 +203,7 @@ class _DetailState extends State<Detail> {
                     style: TextStyle(color: Color(0XFF999999)),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8.0, top: 10.0),
+                    padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
                     child: Text(
                       '全部章节(' + this.lists.length.toString() + ')',
                       style: TextStyle(fontSize: 16.0),
@@ -163,54 +213,13 @@ class _DetailState extends State<Detail> {
                     spacing: 10.0,
                     runSpacing: 10.0,
                     // alignment: WrapAlignment.center, //沿主轴方向居中
-                    children: this.createChaper(this.currentLists),
+                    children: this.createChaper(this.currentLists, context),
                   )
                 ],
               ),
             ),
           ]),
         ),
-      ),
-      bottomSheet: BottomSheet(
-        onClosing: () {},
-        builder: (BuildContext context) {
-          return Container(
-            color: Colors.white,
-            width: double.infinity,
-            height: 300.0,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFFDDDDDD), //阴影颜色
-                      blurRadius: 5.0, //阴影大小
-                    )
-                  ]),
-                  child: Text(
-                    '全部章节',
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.all(15.0),
-                      child: Wrap(
-                        spacing: 10.0,
-                        runSpacing: 10.0,
-                        children: this.createChaper(this.lists),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
       ),
     );
   }
