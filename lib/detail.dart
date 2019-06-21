@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+// import 'dart:async';
 // import 'package:fluttertoast/fluttertoast.dart';
 import './request/request.dart';
+import './reader.dart';
 import './api/api.dart';
 
 class Detail extends StatefulWidget {
-  String id;
+  final String id;
   Detail({Key key, this.id}) : super(key: key);
   @override
   _DetailState createState() => _DetailState(id);
@@ -24,10 +25,11 @@ class _DetailState extends State<Detail> {
     'state': '',
   };
   String id;
-  int index = 10;
+  int index = 14;
   int active = 0;
   bool showCover = false;
   bool sort = true;
+  bool isSubscribe = false;
 
   _DetailState(this.id);
 
@@ -58,26 +60,33 @@ class _DetailState extends State<Detail> {
         .asMap()
         .map((key, item) => MapEntry(
             key,
-            GestureDetector(
+            InkWell(
               onTap: () {
                 if (item['url'] == 'more') {
                   this._showModalBottomSheet(context);
                   return;
                 }
+                Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                  return Reader(url: item['url']);
+                }));
               },
               child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  width: 83.0,
+                  padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                  width: 80.0,
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: this.active == key
-                              ? Colors.orange[200]
-                              : Colors.grey,
-                          width: 1.0),
-                      borderRadius: BorderRadius.circular(4)),
+                              ? Colors.orange
+                              : Colors.grey[200],
+                          width: 1),
+                      borderRadius: BorderRadius.circular(6)),
                   child: Text(
                     item['name'],
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: this.active == key ? Colors.orange : Colors.black,
+                    ),
                   )),
             )))
         .values
@@ -108,8 +117,8 @@ class _DetailState extends State<Detail> {
                   padding: EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(
-                              color: Color(0XFFE5E5E5), width: 1.0))),
+                          bottom:
+                              BorderSide(color: Colors.grey[200], width: 1.0))),
                   child: Text(
                     '全部章节',
                     textAlign: TextAlign.center,
@@ -162,14 +171,14 @@ class _DetailState extends State<Detail> {
                 children: <Widget>[
                   Text(
                     head['name'],
-                    style: TextStyle(fontSize: 18.0),
+                    style: TextStyle(fontSize: 18.0, color: Colors.orange),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.only(bottom: 15.0),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Color(0XFFE5E5E5), width: 1.0))),
+                                color: Color(0XFFE5E5E5), width: 0.5))),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -178,7 +187,7 @@ class _DetailState extends State<Detail> {
                           child: Text(
                             head['author'],
                             style: TextStyle(
-                                color: Color(0XFF999999), fontSize: 12.0),
+                                color: Color(0XFF999999), fontSize: 11.0),
                           ),
                         ),
                         Padding(
@@ -186,21 +195,24 @@ class _DetailState extends State<Detail> {
                           child: Text(
                             '更新: ' + head['date'],
                             style: TextStyle(
-                                color: Color(0XFF999999), fontSize: 12.0),
+                                color: Color(0XFF999999), fontSize: 11.0),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                    child: Text(head['state']),
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Text(
+                      head['state'],
+                      style: TextStyle(color: Colors.pink),
+                    ),
                   ),
                   Text(
                     head['desc'],
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Color(0XFF999999)),
+                    style: TextStyle(color: Color(0XFF999999), fontSize: 12.0),
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
@@ -217,8 +229,71 @@ class _DetailState extends State<Detail> {
                   )
                 ],
               ),
-            ),
+            )
           ]),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding:
+            EdgeInsets.only(left: 15.0, right: 15.0, top: 2.0, bottom: 2.0),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+              color: Color(0XFFE5E5E5), blurRadius: 5.0, spreadRadius: 5.0)
+        ]),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    this.isSubscribe = !this.isSubscribe;
+                  });
+                },
+                child: Row(
+                  children: this.isSubscribe
+                      ? <Widget>[
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.orange,
+                            size: 16,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 3.0, right: 3.0),
+                            child: Text(
+                              '已追',
+                              style: TextStyle(color: Colors.orange),
+                            ),
+                          )
+                        ]
+                      : <Widget>[
+                          Icon(
+                            Icons.favorite_border,
+                            size: 16,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 3.0, right: 3.0),
+                            child: Text('追漫'),
+                          )
+                        ],
+                ),
+              ),
+            ),
+            Container(
+              child: RaisedButton(
+                color: Colors.yellow,
+                // highlightColor: Colors.blue[700],
+                colorBrightness: Brightness.dark,
+                // splashColor: Colors.grey,
+                textColor: Colors.black,
+                child: Text("开始阅读"),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+                onPressed: () => {},
+              ),
+            )
+          ],
         ),
       ),
     );
