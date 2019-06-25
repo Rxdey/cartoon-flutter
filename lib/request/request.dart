@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 /*
  * 封装 restful 请求
@@ -54,18 +56,21 @@ class HttpRequest {
 
       // result = response.data;
       Response response;
-      if (method.toLowerCase() == 'get'){
+      if (method.toLowerCase() == 'get') {
         response = await dio.get(url, queryParameters: data);
       }
-      if (method.toLowerCase() == 'post'){
+      if (method.toLowerCase() == 'post') {
         response = await dio.post(url, data: data);
       }
       result = response.data;
+
       /// 打印响应相关信息
       print('状态：' + response.data['state'].toString());
     } on DioError catch (e) {
       /// 打印请求失败相关信息
       print('请求出错：' + e.toString());
+      Fluttertoast.showToast(msg: '网络异常', textColor: Colors.red);
+      result = { 'state': 0 };
     }
 
     return result;

@@ -10,7 +10,7 @@ class Detail extends StatefulWidget {
   final String id;
   Detail({Key key, this.id}) : super(key: key);
   @override
-  _DetailState createState() => _DetailState(id);
+  _DetailState createState() => _DetailState();
 }
 
 class _DetailState extends State<Detail> {
@@ -24,20 +24,17 @@ class _DetailState extends State<Detail> {
     'name': '',
     'state': '',
   };
-  String id;
   int index = 14;
   int active = 0;
   bool showCover = false;
   bool sort = true;
   bool isSubscribe = false;
 
-  _DetailState(this.id);
-
   @override
   void initState() {
     super.initState();
     // print(head);
-    this._getDate(id);
+    this._getDate(widget.id);
   }
 
   _getDate(String id) async {
@@ -46,12 +43,15 @@ class _DetailState extends State<Detail> {
     // print(res['data']['head']);
     setState(() {
       this.lists = res['data']['lists'];
-      List tempArr = this.lists.sublist(0, this.index);
-      int len = this.lists.length;
-      tempArr.add({'name': '...', 'url': 'more'});
-      tempArr.add(this.lists[len - 1]);
-      this.currentLists = tempArr;
       this.head = res['data']['head'];
+      int len = this.lists.length;
+      List tempArr = this.lists;
+      if (len > index + 2) {
+        tempArr = this.lists.sublist(0, this.index);
+        tempArr.add({'name': '...', 'url': 'more'});
+        tempArr.add(this.lists[len - 1]);
+      }
+      this.currentLists = tempArr;
     });
   }
 
