@@ -9,10 +9,13 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
   // String screen;
   List manhuaList;
   bool isLoading = false;
+
+  @override
+  bool get wantKeepAlive => true;
 
   Future<void> _getDate(String val) async {
     print('-------------------参数：$val-------------------');

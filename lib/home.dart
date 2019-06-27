@@ -8,7 +8,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List manhuaList;
   bool reTry = false;
   @override
@@ -17,6 +17,9 @@ class _HomeState extends State<Home> {
     this._getData();
   }
 
+  @override
+  bool get wantKeepAlive => true;
+  
   Future<void> _getData() async {
     // print(222);
     var res = await HttpRequest.request(Api.recent);
@@ -56,7 +59,8 @@ class _HomeState extends State<Home> {
               ),
             ]),
             child: FadeInImage.assetNetwork(
-              image: 'https://ws1.sinaimg.cn/large/005O2C54gy1g3zkb812hcj30go0nk0x6.jpg',
+              image:
+                  'https://ws1.sinaimg.cn/large/005O2C54gy1g3zkb812hcj30go0nk0x6.jpg',
               placeholder: 'assets/image/default.png',
               fit: BoxFit.cover,
             ),

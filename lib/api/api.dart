@@ -1,6 +1,6 @@
 // const HOST = 'http://192.168.0.112:3000';
-const HOST = 'http://10.255.74.163:3000';
-// const HOST = 'http://manhua.rxdey.xyz';
+// const HOST = 'http://10.255.74.163:3000';
+const HOST = 'http://manhua.rxdey.xyz';
 
 class Interface {
   String url;
