@@ -54,15 +54,6 @@ class _ReaderState extends State<Reader> {
                   itemBuilder: (context, idx) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 5.0),
-                      // child: Image(
-                      //   image: AdvancedNetworkImage(
-                      //     this.imageList[idx]['url'],
-                      //     useDiskCache: true,
-                      //     cacheRule:
-                      //         CacheRule(maxAge: const Duration(days: 3)),
-                      //   ),
-                      //   fit: BoxFit.cover,
-                      // ),
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/image/default.png',
                         image: this.imageList[idx]['url'],

@@ -10,7 +10,7 @@ class Interface {
 }
 
 class Api {
-  static Interface searchManhua = Interface(url: '/hanhan/search');
+  static Interface searchManhua = Interface(url: '/hanhan/search/manhua');
   static Interface manhuaContent = Interface(url: '/hanhan/manhua/content');
   static Interface manhuaImage = Interface(url: '/hanhan/manhua/image');
   static Interface recent = Interface(url: '/hanhan/manhua/recent');
