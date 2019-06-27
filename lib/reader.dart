@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_advanced_networkimage/zoomable.dart';
 
 import './request/request.dart';
-import './api/api.dart' show manhuaImage;
+import './api/api.dart';
 
 // // 测试用
 // const List TESTIMAGE = [
@@ -31,7 +31,7 @@ class _ReaderState extends State<Reader> {
   }
 
   _getDate(String url) async {
-    var res = await HttpRequest.request(manhuaImage, {'url': url});
+    var res = await HttpRequest.request(Api.manhuaImage, {'url': url});
     if (res['state'] != 1) return;
     setState(() {
       this.imageList = res['data'];

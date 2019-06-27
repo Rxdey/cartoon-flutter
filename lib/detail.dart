@@ -38,7 +38,7 @@ class _DetailState extends State<Detail> {
   }
 
   _getDate(String id) async {
-    var res = await HttpRequest.request(manhuaContent, {'id': id, 'st': 1});
+    var res = await HttpRequest.request(Api.manhuaContent, {'id': id, 'st': 1});
     if (res['state'] != 1) return;
     // print(res['data']['head']);
     setState(() {

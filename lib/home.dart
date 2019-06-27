@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './components/recentList.dart';
 import './request/request.dart';
-import './api/api.dart' show recent;
+import './api/api.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
 
   Future<void> _getData() async {
     // print(222);
-    var res = await HttpRequest.request(recent);
+    var res = await HttpRequest.request(Api.recent);
     if (res['state'] != 1) {
       setState(() {
         reTry = true;
