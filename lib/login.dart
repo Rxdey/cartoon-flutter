@@ -19,8 +19,9 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = true;
     });
     var res = await HttpRequest.request(Api.login, {
-      'username': username,
-      'password': generateMd5(password)
+      'username': username.trim(),
+      'password': generateMd5(password.trim()),
+      'st': new DateTime.now().millisecondsSinceEpoch
     });
     setState(() {
       isLoading = false;
@@ -33,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
     print('---------$res--------------');
     await addStringItem('userName', res['data'][0]['user_name']);
     await addStringItem('userId', res['data'][0]['id'].toString());
-    Navigator.pop(context, 'success');
+    Navigator.of(context).pop('success');
+    Fluttertoast.showToast(msg: res['msg'], gravity: ToastGravity.CENTER);
   }
 
   @override

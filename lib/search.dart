@@ -71,7 +71,7 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin {
                             onSubmitted: (v) {
                               this._getDate(v);
                             },
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 14),
                             decoration: InputDecoration(
                                 hintText: '开车开车~  🚌 🚙',
                                 border: InputBorder.none),
